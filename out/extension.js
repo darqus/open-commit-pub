@@ -44,6 +44,7 @@ const execAsync = (0, node_util_1.promisify)(node_child_process_1.exec);
 let isGenerating = false;
 let abortController = null;
 let statusBarItem;
+let currentChildProcess;
 function activate(context) {
     (0, i18n_1.initLocale)();
     console.log("Open Commit extension is now active");
@@ -65,6 +66,10 @@ function activate(context) {
     });
     // Команда остановки генерации
     const stopDisposable = vscode.commands.registerCommand("open-commit.stopGeneration", async () => {
+        if (currentChildProcess) {
+            currentChildProcess.kill();
+            currentChildProcess = undefined;
+        }
         if (abortController) {
             abortController.abort();
             isGenerating = false;
@@ -241,7 +246,7 @@ ${diff}`;
             const OPENCODE_PATH = process.env.OPENCODE_PATH || "/home/eo/.opencode/bin/opencode";
             const OPENCODE_MODEL = process.env.OPENCODE_MODEL;
             const OPENCODE_VARIANT = process.env.OPENCODE_VARIANT || "minimal";
-            const args = ["run", "--dangerously-skip-permissions", "--variant", OPENCODE_VARIANT, "--format", "json"];
+            const args = ["run", "--dangerously-skip-permissions", "--dangerously-do-not-import-commands", "--variant", OPENCODE_VARIANT, "--format", "json"];
             if (OPENCODE_MODEL) {
                 args.push("--model", OPENCODE_MODEL);
             }
@@ -251,6 +256,7 @@ ${diff}`;
                     cwd: workspacePath,
                     stdio: ["pipe", "pipe", "pipe"],
                 });
+                currentChildProcess = child;
                 let stdout = "";
                 let stderr = "";
                 child.stdout?.on("data", (data) => {
@@ -260,6 +266,7 @@ ${diff}`;
                     stderr += data.toString();
                 });
                 child.on("close", (code) => {
+                    currentChildProcess = undefined;
                     if (code === 0) {
                         let message = "";
                         const lines = stdout.split("\n").filter(Boolean);
@@ -280,7 +287,10 @@ ${diff}`;
                         reject(new Error(stderr || `Exit code ${code}`));
                     }
                 });
-                child.on("error", reject);
+                child.on("error", (err) => {
+                    currentChildProcess = undefined;
+                    reject(err);
+                });
                 child.stdin?.end();
             });
             progress.report({ increment: 50 });
@@ -330,6 +340,7 @@ ${diff}`;
     finally {
         isGenerating = false;
         abortController = null;
+        currentChildProcess = undefined;
         vscode.commands.executeCommand("setContext", "open-commit.isGenerating", false);
         updateStatusBar(false);
     }
