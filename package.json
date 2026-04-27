@@ -1,8 +1,9 @@
 {
   "name": "open-commit",
+  "private": true,
   "displayName": "Open Commit",
   "description": "AI-powered commit message generator using Opencode with Conventional Commits support",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "publisher": "lod-inc",
   "icon": "icons/logo.png",
   "keywords": [
@@ -87,6 +88,6 @@
     "build": "npm run package"
   },
   "devDependencies": {
-    "@vscode/vsce": "^3.7.1"
+    "@vscode/vsce": "^3.9.1"
   }
 }
