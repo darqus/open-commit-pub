@@ -1,0 +1,11 @@
+.vscode/**
+.vsixmanifest
+.gitignore
+.yarn/**
+**/*.map
+**/*.ts
+**/tsconfig.json
+**/CHANGELOG.md
+**/src/**
+**/static/**
+**/*.vsix

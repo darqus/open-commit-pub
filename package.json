@@ -1,0 +1,92 @@
+{
+  "name": "open-commit",
+  "displayName": "Open Commit",
+  "description": "AI-powered commit message generator using Opencode with Conventional Commits support",
+  "version": "0.0.2",
+  "publisher": "lod-inc",
+  "icon": "icons/logo.png",
+  "keywords": [
+    "git",
+    "commit",
+    "ai",
+    "opencode",
+    "conventional commits",
+    "scm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darqus/open-commit"
+  },
+  "screenshots": [
+    {
+      "path": "https://raw.githubusercontent.com/darqus/open-commit/main/static/ss_open_commit.png",
+      "caption": "Open Commit - AI-powered commit message generator"
+    }
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "open-commit.generateCommitMessage",
+        "title": "Open Commit: Generate Commit Message",
+        "icon": "$(lightbulb)"
+      },
+      {
+        "command": "open-commit.stopGeneration",
+        "title": "Open Commit: Stop Generation",
+        "icon": "$(stop)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "open-commit.generateCommitMessage"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "open-commit.generateCommitMessage"
+        }
+      ],
+      "scm/title": [
+        {
+          "command": "open-commit.generateCommitMessage",
+          "when": "!open-commit.isGenerating",
+          "group": "navigation@1"
+        },
+        {
+          "command": "open-commit.stopGeneration",
+          "when": "open-commit.isGenerating",
+          "group": "navigation@1"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Open Commit",
+      "properties": {
+        "open-commit.maxDiffSize": {
+          "type": "number",
+          "default": 500000,
+          "description": "Maximum number of characters to include inline. For larger diffs, the full content is passed via a temp file."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "package": "vsce package --no-dependencies",
+    "build": "npm run package"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.7.1"
+  }
+}
