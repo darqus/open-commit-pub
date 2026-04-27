@@ -31,7 +31,7 @@ AI-powered commit message generator for VS Code using Opencode.
 
 ### From VSIX
 
-1. Download the latest `.vsix` file from releases
+1. Download the latest `.vsix` file from [releases](https://github.com/darqus/open-commit-pub/releases)
 2. Open VS Code
 3. Go to Extensions (Ctrl+Shift+X)
 4. Click "..." menu → "Install from VSIX..."
@@ -41,19 +41,26 @@ AI-powered commit message generator for VS Code using Opencode.
 
 See installation instructions at [Opencode repository](https://github.com/anomalyco/opencode).
 
+Verify installation:
+
+```bash
+opencode --version
+```
+
 ## Development
 
 ### Prerequisites
 
 - Node.js 18+ and npm/yarn
 - VS Code
+- Opencode CLI installed
 
 ### Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/anomalyco/open-commit.git
-cd open-commit
+git clone https://github.com/darqus/open-commit-pub.git
+cd open-commit-pub
 
 # Install dependencies
 npm install
@@ -61,27 +68,21 @@ npm install
 yarn install
 ```
 
-### Build
+### Available Commands
 
 ```bash
-# Compile TypeScript
-npm run compile
-# or
-yarn compile
-
-# Watch mode for development
-npm run watch
-# or
-yarn watch
-```
-
-### Package
-
-```bash
-# Create VSIX package
+# Build and package VSIX
+npm run build
 npm run package
-# or
-yarn package
+
+# Install locally for testing
+npm run build-and-install
+
+# Update dependencies
+npm update
+
+# Check for outdated packages
+npm outdated
 ```
 
 ### Install Locally
@@ -89,26 +90,17 @@ yarn package
 ```bash
 # Build and install in one command
 npm run build-and-install
-# or
-yarn build-and-install
 
-# Or manually install the VSIX (version will be substituted automatically)
-code --install-extension open-commit-$(node -p "require('./package.json').version").vsix
+# Or manually install the VSIX
+code --install-extension open-commit-0.0.1.vsix
 ```
 
-### Update Dependencies
+### Testing the Extension
 
-```bash
-# Update all dependencies
-npm update
-# or
-yarn upgrade
-
-# Check for outdated packages
-npm outdated
-# or
-yarn outdated
-```
+1. Run `npm run build-and-install`
+2. Restart VS Code
+3. Open a Git repository with changes
+4. Use the extension via Source Control panel
 
 ## Usage
 
@@ -124,6 +116,28 @@ yarn outdated
 
 - Generate commit message: Click Opencode icon in Source Control
 - Stop generation: Click stop icon during generation
+
+### Command Palette
+
+You can also use the Command Palette:
+
+1. Press Ctrl+Shift+P
+2. Type "Open Commit: Generate Commit Message"
+3. Press Enter
+
+## Configuration
+
+### Settings
+
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `open-commit.maxDiffSize` | number | 500000 | Maximum number of characters for inline diff. Larger diffs are passed via temp file. |
+
+### Language
+
+The extension automatically detects your VS Code language. Supported:
+- English
+- Russian
 
 ## Commit Message Format
 
@@ -156,10 +170,6 @@ feat(auth): add JWT token validation
 Implement JWT token validation middleware to secure API endpoints.
 Includes token expiration check and signature verification.
 ```
-
-## Configuration
-
-Currently, the extension works out of the box with Opencode. Future versions will include customizable settings.
 
 ## Troubleshooting
 
