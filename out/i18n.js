@@ -73,6 +73,8 @@ const translations = {
         diffTruncated: "Diff обрезан с {0} до {1} символов",
         diffUsingFile: "Diff ({0} симв.) передан через файл",
         disableSmartCommitWarning: "Отключите git.enableSmartCommit в настройках, чтобы избежать автоматического коммита",
+        stageFilesInstructions: "# Add files to staging area:\ngit add .\n\n# Then generate commit message via Open Commit",
+        stageFilesInstructionsRu: "# Добавьте файлы в staging area:\ngit add .\n\n# Затем сгенерируйте сообщение коммита через Open Commit",
     },
     en: {
         statusBarGenerating: "$(sync~spin) Open Commit generating...",
@@ -110,6 +112,8 @@ const translations = {
         diffTruncated: "Diff truncated from {0} to {1} characters",
         diffUsingFile: "Diff ({0} chars) passed via file",
         disableSmartCommitWarning: "Disable git.enableSmartCommit in settings to prevent auto-commit",
+        stageFilesInstructions: "# Add files to staging area:\ngit add .\n\n# Then generate commit message via Open Commit",
+        stageFilesInstructionsRu: "# Добавьте файлы в staging area:\ngit add .\n\n# Затем сгенерируйте сообщение коммита через Open Commit",
     },
 };
 let currentLocale = "en";

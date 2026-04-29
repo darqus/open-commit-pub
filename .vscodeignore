@@ -1,6 +1,8 @@
 .vscode/**
 .vsixmanifest
+.git/**
 .gitignore
+.github/**
 .yarn/**
 **/*.map
 **/*.ts

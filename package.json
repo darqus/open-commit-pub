@@ -27,6 +27,9 @@
   "engines": {
     "vscode": "^1.85.0"
   },
+  "extensionDependencies": [
+    "vscode.git"
+  ],
   "categories": [
     "SCM Providers",
     "Other"
@@ -40,12 +43,12 @@
       {
         "command": "open-commit.generateCommitMessage",
         "title": "Open Commit: Generate Commit Message",
-        "icon": "$(lightbulb)"
+        "icon": "$(debug-start)"
       },
       {
         "command": "open-commit.stopGeneration",
         "title": "Open Commit: Stop Generation",
-        "icon": "$(stop)"
+        "icon": "$(debug-stop)"
       }
     ],
     "menus": {

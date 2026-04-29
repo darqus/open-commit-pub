@@ -2,7 +2,11 @@
 
 AI-powered commit message generator for VS Code using Opencode.
 
-![screenshot](https://github.com/darqus/open-commit-pub/blob/main/static/ss_open_commit.png?raw=true)
+![screenshot](https://github.com/darqus/assets/blob/main/img/open-commit/ss-open-commit-1.png?raw=true)
+
+![screenshot](https://github.com/darqus/assets/blob/main/img/open-commit/ss-open-commit-2.png?raw=true)
+
+![screenshot](https://github.com/darqus/assets/blob/main/img/open-commit/ss-open-commit-3.png?raw=true)
 
 <video src="https://github.com/darqus/assets/raw/refs/heads/main/video/open-commit.mp4" controls></video>
 
