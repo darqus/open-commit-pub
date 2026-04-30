@@ -3,7 +3,7 @@
   "private": true,
   "displayName": "Open Commit",
   "description": "AI-powered commit message generator using Opencode with Conventional Commits support",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "lod-inc",
   "icon": "icons/logo.png",
   "keywords": [
