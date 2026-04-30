@@ -16,13 +16,14 @@ AI-powered commit message generator for VS Code using Opencode.
 - 📝 **Conventional Commits** - Follows industry-standard Conventional Commits specification
 - 🎯 **Smart Integration** - Seamlessly integrates with VS Code's Source Control panel
 - 🌍 **Multi-language Support** - Available in English and Russian
-- ⚡ **Fast & Efficient** - Uses local Opencode for quick generation
+- ⚡ **Fast, Free & Efficient** - Uses local Opencode with the free `opencode/minimax-m2.5-free` model and `minimal` variant by default
 - 🛑 **Cancellable** - Stop generation at any time
 
 ## Requirements
 
 - [Opencode](https://github.com/anomalyco/opencode) must be installed and available in your system PATH
 - Git repository initialized in your workspace
+- Uses the free `opencode/minimax-m2.5-free` model and `minimal` variant by default for the fastest local commit message generation
 
 ## Installation
 
