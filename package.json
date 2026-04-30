@@ -3,7 +3,7 @@
   "private": true,
   "displayName": "Open Commit",
   "description": "AI-powered commit message generator using Opencode with Conventional Commits support",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "publisher": "lod-inc",
   "icon": "icons/logo.png",
   "keywords": [
@@ -82,6 +82,11 @@
           "type": "number",
           "default": 500000,
           "description": "Maximum number of characters to include inline. For larger diffs, the full content is passed via a temp file."
+        },
+        "open-commit.timeout": {
+          "type": "number",
+          "default": 60,
+          "description": "Timeout in seconds for commit message generation."
         }
       }
     }
