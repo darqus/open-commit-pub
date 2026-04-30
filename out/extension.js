@@ -36,13 +36,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = activate;
 exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
+const generate_1 = require("./commands/generate");
+const stop_1 = require("./commands/stop");
 const i18n_1 = require("./i18n");
 const git_1 = require("./services/git");
 const opencode_1 = require("./services/opencode");
 const state_1 = require("./services/state");
 const statusBar_1 = require("./ui/statusBar");
-const generate_1 = require("./commands/generate");
-const stop_1 = require("./commands/stop");
 let gitService;
 let opencodeService;
 let stateManager;
@@ -52,9 +52,9 @@ let stopCommand;
 let outputChannel;
 async function activate(context) {
     (0, i18n_1.initLocale)();
-    outputChannel = vscode.window.createOutputChannel("Open Commit");
-    outputChannel.appendLine("Open Commit extension activated");
-    console.log("Open Commit extension is now active");
+    outputChannel = vscode.window.createOutputChannel('Open Commit');
+    outputChannel.appendLine('Open Commit extension activated');
+    console.log('Open Commit extension is now active');
     // Initialize services
     gitService = new git_1.GitService();
     opencodeService = new opencode_1.OpencodeService();
@@ -65,7 +65,7 @@ async function activate(context) {
         await gitService.initialize();
     }
     catch (error) {
-        console.error("Failed to initialize Git service:", error);
+        console.error('Failed to initialize Git service:', error);
     }
     // Initialize commands
     generateCommand = new generate_1.GenerateCommand(gitService, opencodeService, stateManager, outputChannel);
@@ -75,13 +75,13 @@ async function activate(context) {
         statusBarManager.updateStatus(state);
     });
     // Initialize context key
-    await vscode.commands.executeCommand("setContext", "open-commit.isGenerating", false);
+    await vscode.commands.executeCommand('setContext', 'open-commit.isGenerating', false);
     // Register commands
-    const generateDisposable = vscode.commands.registerCommand("open-commit.generateCommitMessage", () => generateCommand.execute());
-    const stopDisposable = vscode.commands.registerCommand("open-commit.stopGeneration", () => stopCommand.execute());
+    const generateDisposable = vscode.commands.registerCommand('open-commit.generateCommitMessage', () => generateCommand.execute());
+    const stopDisposable = vscode.commands.registerCommand('open-commit.stopGeneration', () => stopCommand.execute());
     context.subscriptions.push(generateDisposable, stopDisposable, outputChannel);
 }
 function deactivate() {
     statusBarManager?.dispose();
-    console.log("Open Commit extension is now deactivated");
+    console.log('Open Commit extension is now deactivated');
 }
