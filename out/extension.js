@@ -68,7 +68,7 @@ async function activate(context) {
         console.error('Failed to initialize Git service:', error);
     }
     // Initialize commands
-    generateCommand = new generate_1.GenerateCommand(gitService, opencodeService, stateManager, outputChannel);
+    generateCommand = new generate_1.GenerateCommand(gitService, opencodeService, stateManager, outputChannel, statusBarManager);
     stopCommand = new stop_1.StopCommand(stateManager);
     // Subscribe to state changes
     stateManager.subscribe((state) => {
