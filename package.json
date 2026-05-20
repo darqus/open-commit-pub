@@ -3,7 +3,7 @@
   "private": true,
   "displayName": "Open Commit",
   "description": "AI-powered commit message generator using Opencode with Conventional Commits support",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "publisher": "lod-inc",
   "icon": "icons/logo.png",
   "keywords": [
@@ -90,22 +90,8 @@
         },
         "open-commit.model": {
           "type": "string",
-          "default": "opencode/minimax-m2.5-free",
-          "description": "OpenCode model to use for commit message generation. Use a free local model for the fastest free generation.",
-          "enum": [
-            "opencode/minimax-m2.5-free",
-            "openai/gpt-5.4-nano",
-            "openai/gpt-5.4-mini",
-            "openai/gpt-4.1-mini",
-            "google/gemini-2.5-flash-lite"
-          ],
-          "enumDescriptions": [
-            "Free local Minimax model for the fastest free generation.",
-            "Small OpenAI nano model, low latency but paid.",
-            "Small OpenAI mini model with balanced speed and quality.",
-            "OpenAI 4.1 mini model, good for lightweight usage.",
-            "Google Gemini Lite model, faster than full Gemini."
-          ]
+          "default": "",
+          "description": "OpenCode model to use. Leave empty for auto-detection (picks first available free model). Example: opencode/gpt-5.4-nano"
         },
         "open-commit.variant": {
           "type": "string",
