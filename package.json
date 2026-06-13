@@ -3,7 +3,7 @@
   "private": true,
   "displayName": "Open Commit",
   "description": "AI-powered commit message generator using Opencode with Conventional Commits support",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "publisher": "lod-inc",
   "icon": "icons/logo.png",
   "keywords": [
@@ -92,6 +92,11 @@
           "type": "string",
           "default": "",
           "description": "OpenCode model to use. Leave empty for auto-detection (picks first available free model). Example: opencode/gpt-5.4-nano"
+        },
+        "open-commit.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Zen API key for direct API calls (bypasses opencode CLI). Faster than spawning opencode process."
         },
         "open-commit.variant": {
           "type": "string",

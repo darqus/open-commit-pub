@@ -1,6 +1,6 @@
 # Open Commit
 
-AI-powered commit message generator for VS Code using Opencode.
+AI-powered commit message generator for VS Code.
 
 ![screenshot](https://github.com/darqus/assets/blob/main/img/open-commit/ss-open-commit-1.png?raw=true)
 
@@ -12,18 +12,21 @@ AI-powered commit message generator for VS Code using Opencode.
 
 ## Features
 
-- 🤖 **AI-Generated Commit Messages** - Automatically generates commit messages based on your code changes using Opencode AI
-- 📝 **Conventional Commits** - Follows industry-standard Conventional Commits specification
-- 🎯 **Smart Integration** - Seamlessly integrates with VS Code's Source Control panel
-- 🌍 **Multi-language Support** - Available in English and Russian
-- ⚡ **Fast, Free & Efficient** - Uses local Opencode with the free `opencode/minimax-m2.5-free` model and `minimal` variant by default
-- 🛑 **Cancellable** - Stop generation at any time
+- 🤖 **AI-Generated Commit Messages** — automatically generates conventional commit messages from your code changes
+- ⚡ **Two Execution Modes:**
+  - **Direct API (fast)** — HTTPS request straight to Zen API, bypassing Opencode CLI spawn. ~1-3s faster per generation
+  - **Opencode CLI** — fallback via `opencode run` when no API key is configured
+- 📝 **Conventional Commits** — follows the Conventional Commits specification (`feat(scope): subject`)
+- 🎯 **Live Streaming** — commit message appears in SCM inputBox in real-time as it's being generated
+- 🛑 **Cancellable** — stop generation at any time
+- 🌍 **Multi-language Support** — English and Russian
+- 🆓 **Free tier available** — use free models via Opencode CLI when no API key is set
 
 ## Requirements
 
-- [Opencode](https://github.com/anomalyco/opencode) must be installed and available in your system PATH
+- **Fast mode:** API key from [opencode.ai](https://opencode.ai) (`open-commit.apiKey` setting)
+- **Fallback mode:** [Opencode CLI](https://github.com/anomalyco/opencode) installed in your system PATH
 - Git repository initialized in your workspace
-- Uses the free `opencode/minimax-m2.5-free` model and `minimal` variant by default for the fastest local commit message generation
 
 ## Installation
 
@@ -42,78 +45,17 @@ AI-powered commit message generator for VS Code using Opencode.
 4. Click "..." menu → "Install from VSIX..."
 5. Select the downloaded file
 
-### Install Opencode
+## Quick Start
 
-See installation instructions at [Opencode repository](https://github.com/anomalyco/opencode).
+**Fastest way — configure an API key:**
 
-## Development
+1. Install the extension
+2. Open VS Code settings (Ctrl+,)
+3. Search for `open-commit.apiKey`
+4. Paste your API key from [opencode.ai](https://opencode.ai)
+5. Open Source Control (Ctrl+Shift+G) and click the generate button
 
-### Prerequisites
-
-- Node.js 18+ and npm/yarn
-- VS Code
-
-### Setup
-
-```bash
-# Clone the repository
-git clone https://github.com/anomalyco/open-commit.git
-cd open-commit
-
-# Install dependencies
-npm install
-# or
-yarn install
-```
-
-### Build
-
-```bash
-# Compile TypeScript
-npm run compile
-# or
-yarn compile
-
-# Watch mode for development
-npm run watch
-# or
-yarn watch
-```
-
-### Package
-
-```bash
-# Create VSIX package
-npm run package
-# or
-yarn package
-```
-
-### Install Locally
-
-```bash
-# Build and install in one command
-npm run build-and-install
-# or
-yarn build-and-install
-
-# Or manually install the VSIX (version will be substituted automatically)
-code --install-extension open-commit-$(node -p "require('./package.json').version").vsix
-```
-
-### Update Dependencies
-
-```bash
-# Update all dependencies
-npm update
-# or
-yarn upgrade
-
-# Check for outdated packages
-npm outdated
-# or
-yarn outdated
-```
+**Without an API key** — the extension will automatically use Opencode CLI (must be installed separately).
 
 ## Usage
 
@@ -121,13 +63,13 @@ yarn outdated
 
 1. Make changes to your code
 2. Open Source Control panel (Ctrl+Shift+G)
-3. Click the Opencode icon in the Changes section
-4. Wait for AI to generate the commit message
-5. Review and commit
+3. Click the Open Commit icon in the SCM title bar
+4. Watch the commit message appear in real-time
+5. Review, edit if needed, and commit
 
 ### Keyboard Shortcuts
 
-- Generate commit message: Click Opencode icon in Source Control
+- Generate commit message: Click Open Commit icon in Source Control
 - Stop generation: Click stop icon during generation
 
 ## Commit Message Format
@@ -136,53 +78,103 @@ Generated messages follow Conventional Commits:
 
 ```
 <type>(<scope>): <subject>
-
-<body>
 ```
 
 **Types:**
 
-- `feat` - New feature
-- `fix` - Bug fix
-- `docs` - Documentation
-- `style` - Code style changes
-- `refactor` - Code refactoring
-- `perf` - Performance improvements
-- `test` - Tests
-- `chore` - Maintenance tasks
-- `ci` - CI/CD changes
-- `build` - Build system changes
+- `feat` — New feature
+- `fix` — Bug fix
+- `docs` — Documentation
+- `style` — Code style changes
+- `refactor` — Code refactoring
+- `perf` — Performance improvements
+- `test` — Tests
+- `chore` — Maintenance tasks
 
 **Example:**
 
 ```
 feat(auth): add JWT token validation
-
-Implement JWT token validation middleware to secure API endpoints.
-Includes token expiration check and signature verification.
 ```
 
 ## Configuration
 
-Currently, the extension works out of the box with Opencode. Future versions will include customizable settings.
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `open-commit.apiKey` | `""` | API key for direct HTTPS calls to Zen API. **Recommended** — fastest mode, no Opencode CLI required |
+| `open-commit.model` | `""` | Opencode model (auto-detected if empty). Used in fallback CLI mode only |
+| `open-commit.variant` | `"minimal"` | Variant: `minimal`, `high`, `max`. Used in fallback CLI mode only |
+| `open-commit.timeout` | `60` | Timeout in seconds |
+| `open-commit.maxDiffSize` | `500000` | Maximum diff size in characters before truncation |
+
+### Environment Variables
+
+- `OPENCODE_API_KEY` — overrides `open-commit.apiKey`
+- `OPENCODE_PATH` — path to Opencode CLI (default: `opencode`)
+- `OPENCODE_MODEL` — overrides `open-commit.model`
+- `OPENCODE_VARIANT` — overrides `open-commit.variant`
+
+## How It Works
+
+```
+Generate button pressed
+       │
+       ▼
+  Read configuration
+       │
+       ├── apiKey set? ──► Direct HTTPS to Zen API (opencode.ai)
+       │                       (fast, no process spawn)
+       │
+       └── apiKey empty? ──► spawn(`opencode run --format json`)
+                               (fallback, requires CLI installed)
+       │
+       ▼
+  Commit message streams into SCM inputBox
+       │
+       ▼
+  User reviews, edits, and commits
+```
 
 ## Troubleshooting
 
+### "API error 401"
+Invalid or missing API key. Check the `open-commit.apiKey` setting.
+
 ### "Opencode not found"
-
-Make sure Opencode is installed and available in your PATH:
-
+Opencode CLI is not installed and no API key is set. Either install Opencode or configure `open-commit.apiKey`:
 ```bash
-opencode --version
+npm i -g opencode-ai
 ```
 
 ### "No changes to commit"
-
 Make sure you have uncommitted changes in your Git repository.
 
 ### "Git extension not found"
-
 Ensure VS Code's built-in Git extension is enabled.
+
+## Development
+
+### Prerequisites
+
+- Node.js 18+ and npm
+- VS Code
+
+### Setup
+
+```bash
+git clone https://github.com/anomalyco/open-commit.git
+cd open-commit
+npm install
+```
+
+### Build
+
+```bash
+npm run compile     # Compile TypeScript
+npm run watch       # Watch mode
+npm run package     # Create VSIX package
+npm run install:ext # Build and install locally
+```
 
 ## Contributing
 
