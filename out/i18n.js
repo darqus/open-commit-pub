@@ -75,6 +75,7 @@ const translations = {
         gitConfigured: 'Git настроен успешно',
         gitUserNamePrompt: 'Введите ваше имя для Git',
         gitUserEmailPrompt: 'Введите ваш email для Git',
+        confirmStageAll: 'Нет staged файлов. Стейджить все изменения?',
         diffTruncated: 'Diff обрезан с {0} до {1} символов',
         diffUsingFile: 'Diff ({0} симв.) передан через файл',
         disableSmartCommitWarning: 'Отключите git.enableSmartCommit в настройках, чтобы избежать автоматического коммита',
@@ -119,6 +120,7 @@ const translations = {
         gitConfigured: 'Git configured successfully',
         gitUserNamePrompt: 'Enter your Git user name',
         gitUserEmailPrompt: 'Enter your Git user email',
+        confirmStageAll: 'No staged files. Stage all changes?',
         diffTruncated: 'Diff truncated from {0} to {1} characters',
         diffUsingFile: 'Diff ({0} chars) passed via file',
         disableSmartCommitWarning: 'Disable git.enableSmartCommit in settings to prevent auto-commit',
@@ -132,9 +134,6 @@ function initLocale() {
     currentLocale = vscodeLang.startsWith('ru') ? 'ru' : 'en';
 }
 function t(key, ...args) {
-    let message = translations[currentLocale][key] || translations.en[key];
-    args.forEach((arg, i) => {
-        message = message.replace(`{${i}}`, arg);
-    });
-    return message;
+    const message = translations[currentLocale][key] ?? translations.en[key] ?? key;
+    return args.reduce((result, arg, i) => result.replace(`{${i}}`, arg), message);
 }

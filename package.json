@@ -3,7 +3,7 @@
   "private": true,
   "displayName": "Open Commit",
   "description": "AI-powered commit message generator using Opencode with Conventional Commits support",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "publisher": "lod-inc",
   "icon": "icons/logo.png",
   "keywords": [
@@ -112,6 +112,11 @@
             "Balanced performance/quality variant.",
             "Highest quality variant with more reasoning effort."
           ]
+        },
+        "open-commit.dangerouslySkipPermissions": {
+          "type": "boolean",
+          "default": false,
+          "description": "Allow opencode CLI to run without permission checks. Only enable if you trust the generated code."
         }
       }
     }
